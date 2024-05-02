@@ -1,0 +1,17 @@
+version: '1.0.0'
+
+services:
+  api:
+    image: ssm-app-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+
+  client:
+    image: ssm-app-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
