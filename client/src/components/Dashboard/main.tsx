@@ -3,13 +3,13 @@ import Chart from 'chart.js';
 
 const DashboardHome: React.FC = () => {
   useEffect(() => {
-    const buyersChart = new Chart(document.getElementById('buyers-chart') as HTMLCanvasElement, buyersData);
+  /*  const buyersChart = new Chart(document.getElementById('buyers-chart') as HTMLCanvasElement, buyersData);
     const reviewsChart = new Chart(document.getElementById('reviews-chart') as HTMLCanvasElement, reviewsData);
 
     return () => {
       buyersChart.destroy();
       reviewsChart.destroy();
-    };
+    };*/
   }, []);
 
   const buyersData = {

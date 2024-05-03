@@ -19,5 +19,17 @@ client/yarn-debug.log*
 client/yarn-error.log*
 client/.gitignore
 
-api/.venv
+api/.venv/
 
+api/*.pyc
+api/__pycache__/
+
+api/instance/
+
+api/.pytest_cache/
+api/.coverage
+api/htmlcov/
+
+api/dist/
+api/build/
+api/*.egg-info/
