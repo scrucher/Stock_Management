@@ -1,3 +1,9 @@
-from peewee import MySQLDatabase
+from pony.orm import *
+db = Database()
 
-db = MySQLDatabase('Stock Manager', user='root', charset='utf8mb4')
+def db_connection():
+    try:
+        db.bind(provider='mysql', host='localhost', user='root', passwd='', db='saley_stock')
+        return db
+    except Exception as e:
+        return e
