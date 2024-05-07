@@ -45,7 +45,11 @@ class UserController:
                         res.password.encode('utf-8')
                 ):
                     token = Config.jwt_token(res)
-                    return jsonify({'message': 'Login Successful'})
+                    response = jsonify({'message': 'Login successful'})
+                    response.set_cookie(
+                        'access_token', token, httponly=True, secure=True
+                    )
+                    return response
         except Exception as e:
             return jsonify({'error': str(e)})
 

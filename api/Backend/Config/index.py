@@ -24,7 +24,7 @@ class Config:
             'exp': datetime.utcnow() + expiration_delta
         }
         token = jwt.encode(payload, Config.jwt_secret, algorithm=Config.jwt_hash)
-        return token.decode('utf-8')
+        return token
 
     def jwt_decode(request):
         """Requires valid JWT in the 'Authorization' header."""
