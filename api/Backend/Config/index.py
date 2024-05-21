@@ -1,23 +1,22 @@
 from datetime import datetime, timedelta
-from os import getenv as env
-from dotenv import load_dotenv
+import os
 from flask import jsonify
 import jwt
+from dotenv import load_dotenv as dotenv
 
+dotenv()
 
-load_dotenv()
 
 class Config:
-    db_host = env('DB_HOST')
-    db_name = env('DB_NAME')
-    db_user = env('DB_USRNM')
-    db_pass = env('DB_PASS')
-    db_port = env('DB_PORT')
-    jwt_secret = env('JWT_SECRET')
-    jwt_hash = env('JWT_HASH')
+    db_host = os.getenv('DB_HOST')
+    db_name = os.getenv('DB_NAME')
+    db_user = os.getenv('DB_USER')
+    db_pass = os.getenv('DB_PASS')
+    db_port = os.getenv('DB_PORT')
+    jwt_secret = os.getenv('JWT_SECRET')
+    jwt_hash = os.getenv('JWT_HASH')
 
     def jwt_token(user):
-        """Generates a JWT access token containing the user's ID."""
         expiration_delta = timedelta(hours=1)
         payload = {
             'user_id': user.id,
@@ -27,7 +26,6 @@ class Config:
         return token
 
     def jwt_decode(request):
-        """Requires valid JWT in the 'Authorization' header."""
         auth_header = request.headers.get('Authorization')
         if not auth_header:
             return jsonify({'error': 'Missing authorization header'}), 401
@@ -36,7 +34,6 @@ class Config:
             access_token = auth_header.split(' ')[1]
             payload = jwt.decode(access_token, secret_key=Config.jwt_secret, algorithms=[Config.jwt_hash])
             user_id = payload['user_id']
-            # ... Load user from the database if needed ...
             return None
         except jwt.exceptions.InvalidTokenError:
             return jsonify({'error': 'Invalid or expired token'}), 401

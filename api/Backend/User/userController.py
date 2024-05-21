@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from .userModel import UserModel
+from ..Entity.Models import UserModel
 from ..Config.index import Config
 from pony.orm import *
 import bcrypt
@@ -18,10 +18,10 @@ class UserController:
                 return jsonify({'message': 'User Not Found '})
             else:
                 salt = bcrypt.gensalt()
-                password =bcrypt.hashpw(
-                            data['password'].encode('utf-8'),
-                            salt # Generate a strong salt
-                            )
+                password = bcrypt.hashpw(
+                    data['password'].encode('utf-8'),
+                    salt  # Generate a strong salt
+                )
                 UserModel(
                     name=data["name"],
                     email=data["email"],
@@ -53,9 +53,33 @@ class UserController:
         except Exception as e:
             return jsonify({'error': str(e)})
 
+    def update_user(self):
+        data = request.get_json()
+        try:
+            user = UserModel.get(id=data["id"])
+            if not user:
+                return jsonify({'message': 'User Not Found'})
+            if data["name"]:
+                UserModel['id'].name = data["name"]
+            if data["email"]:
+                UserModel['id'].email = data["email"]
+            if data["password"]:
+                UserModel['id'].password = data["password"]
+            if data["role"]:
+                UserModel['id'].role = data["role"]
+            commit()
+            return jsonify({'message': 'User updated successfully'})
+        except Exception as e:
+            return jsonify({'error': str(e)});
 
-
-
-
-
-
+    def delete_user(self):
+        data = request.get_json()
+        try:
+            user = UserModel.get(id=data["id"])
+            if not user:
+                return jsonify({'message': 'User Not Found'})
+            UserModel['id'].delete()
+            commit()
+            return jsonify({'message': 'User deleted successfully'})
+        except Exception as e:
+            return jsonify({'error': str(e)})

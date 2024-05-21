@@ -1,6 +1,5 @@
 import {Login} from "./Login/SignIn";
 import {SideBar} from "./SideBar/SideBar";
-import {NavBar} from "./NavBar/NavBar";
+import {Dashboard} from "./Dashboard/main";
 
-
-export {Login, SideBar, NavBar};
+export {Login, SideBar, Dashboard};
