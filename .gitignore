@@ -20,6 +20,8 @@ client/yarn-error.log*
 client/.gitignore
 
 api/.venv/
+api/.env
+api/.flaskenv
 
 api/*.pyc
 api/__pycache__/

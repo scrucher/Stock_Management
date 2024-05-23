@@ -1,17 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Login} from './components'
+import {Dashboard, Login, SideBar} from './components'
 
 function App() {
-  return (
-    <div className="App">
-      {/*<header className="App-header">
+    return (
+        <>
+        <div className="App flex">
+            <div className='fixed'>
+               <SideBar/>
+            </div>
 
-      </header>*/}
-        <Login />
-    </div>
-  );
+            <div className="flex-1 ">
+                <Dashboard/>
+            </div>
+        </div>
+        </>
+    );
 }
 
 export default App;

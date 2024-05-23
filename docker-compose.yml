@@ -1,17 +1,53 @@
-version: '1.0.0'
+version: '3.7'
 
 services:
+  db:
+    container_name: db
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf # Mount custom config
+      - my-db-data:/var/lib/mysql         # Named volume for MySQL data
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD : yes
+      MYSQL_DATABASE: saley_stock
+    networks:
+      - stock-network
+
   api:
-    image: ssm-app-api
-    build:
-      context: ./api
-      dockerfile: Dockerfile
+    container_name: api
+    build: ./api
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    networks:
+      - stock-network
+    environment:
+      JWT_SECRET: top_secret_5%!1
+      JWT_HASH: HS512
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS:
+      DB_NAME: saley_stock
+      DB_PORT: 3306
 
   client:
-    image: ssm-app-client
-    build:
-      context: ./client
-      dockerfile: Dockerfile
+    container_name: client
+    build: ./client
     ports:
       - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - stock-network
 
+networks:
+  stock-network:
+    driver: bridge
+
+volumes:
+  my-db-data:

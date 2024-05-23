@@ -1,16 +1,13 @@
-FROM node:alpine
-
-# Set the working directory in the container
+FROM node:16.20.2-alpine AS build-stage
 WORKDIR /client
-
-# Copy package.json and package-lock.json separately to leverage Docker caching
-COPY package.json ./
-
-# Install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy the rest of your app's source code
 COPY . .
+RUN npm run build
 
-# Expose port 3000
+# --- Production Stage ---
+FROM nginx:alpine
+COPY --from=build-stage /client/build /usr/share/nginx/html
 EXPOSE 3000
+CMD ["nginx", "-g", "daemon off;"]

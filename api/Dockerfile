@@ -1,16 +1,11 @@
-FROM python:3.8
+FROM python:3.9-slim
 
-# Copy requirements first for better caching
-COPY requirements.txt /requirements.txt
-
-# Install dependencies
-RUN pip3 install -r /requirements.txt
-
-# Set working directory
 WORKDIR /api
 
-# Copy the rest of the application code
+COPY requirements.txt .
+RUN pip install cryptography
+RUN pip install -r requirements.txt
+
 COPY . .
 
-# Default command to run the Flask server
-RUN flask run
+CMD ["gunicorn","--preload" , "--bind", "0.0.0.0:5000", "Backend:app"]
