@@ -8,13 +8,13 @@ dotenv()
 
 
 class Config:
-    db_host = os.getenv('DB_HOST')
-    db_name = os.getenv('DB_NAME')
-    db_user = os.getenv('DB_USER')
-    db_pass = os.getenv('DB_PASS')
-    db_port = os.getenv('DB_PORT')
-    jwt_secret = os.getenv('JWT_SECRET')
-    jwt_hash = os.getenv('JWT_HASH')
+    db_host = os.getenv('DB_HOST') or 'localhost'
+    #db_name = os.getenv('DB_NAME') or 'saley_stock'
+    db_user = os.getenv('DB_USER') or 'root'
+    db_pass = os.getenv('DB_PASS') or ''
+    db_port = os.getenv('DB_PORT') or 3306
+    jwt_secret = os.getenv('JWT_SECRET') or 'Top_SeCrEt_5!$#CEREQ'
+    jwt_hash = os.getenv('JWT_HASH') or 'HS512'
 
     def jwt_token(user):
         expiration_delta = timedelta(hours=1)
