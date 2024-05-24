@@ -35,4 +35,7 @@ api/htmlcov/
 api/dist/
 api/build/
 api/*.egg-info/
-__pycache__
+*/__pycache__
+*/**/__pycache__
+*/.env
+*/.flaskenv
