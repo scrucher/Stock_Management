@@ -1,10 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask
 from pony.flask import Pony
-from .User.userController import UserController
 from .Entity.Models import connect_to_db
 from .User.user_route import user_bp
+from .Service.Service_Route import service_bp
 
-usr_cntrl = UserController()
 app = Flask(__name__)
 app.config.update(dict(
     DEBUG=True,
@@ -12,6 +11,6 @@ app.config.update(dict(
 ))
 
 app.register_blueprint(user_bp, url_prefix='/users')
-
+app.register_blueprint(service_bp, url_prefix='/services')
 
 Pony(app)
