@@ -7,13 +7,14 @@ function App() {
     return (
         <>
         <div className="App flex">
-            <div className='fixed'>
+            {/*<div className='fixed'>
                <SideBar/>
             </div>
 
             <div className="flex-1 ">
                 <Dashboard/>
-            </div>
+            </div>*/}
+            <Login />
         </div>
         </>
     );

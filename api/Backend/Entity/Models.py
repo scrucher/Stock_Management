@@ -1,6 +1,7 @@
 from pony.orm import *
 from ..Config.index import Config
 import time
+from datetime import datetime
 
 db = Database()
 
@@ -30,6 +31,30 @@ class Category(db.Entity):
     name = Required(str)
     products = Set('Product')
     suppliers = Set('CategorySupplier')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
+
+
+class Unit(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    name = Required(str)
+    products = Set('Product')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Supplier(db.Entity):
@@ -81,9 +106,8 @@ class Product(db.Entity):
     name = Required(str)
     image_name = Optional(str)
     category = Required(Category)
+    unit = Required(Unit)
     expiration_date = Optional(str)
-    modification_date = Optional(str)
-    registration_date = Optional(str)
     unit_price = Optional(float)
     stock = Set('Stock')
     inbound_stocks = Set('InboundStock')
@@ -93,6 +117,15 @@ class Product(db.Entity):
     inventory_audits = Set('InventoryAudit')
     order_items = Set('OrderItem')
     returns = Set('Return')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Stock(db.Entity):

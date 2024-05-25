@@ -2,8 +2,8 @@ import React from 'react';
 import {Chart, ArcElement, Tooltip, Legend} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
-
-Chart.register(ArcElement, Tooltip, Legend);
+//
+// Chart.register(ArcElement, Tooltip, Legend);
 export const Metrix : React.FC = () => {
     const tempData = {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -33,8 +33,8 @@ export const Metrix : React.FC = () => {
   };
     return (
         <div style={{margin: '0 auto'}}>
-            <h2>Doughnut Chart Example</h2>
-            <Doughnut data={tempData}/>
+            {/*<h2>Doughnut Chart Example</h2>
+            <Doughnut data={tempData}/>*/}
         </div>
     );
 }
