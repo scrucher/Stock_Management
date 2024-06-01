@@ -1,6 +1,7 @@
 from pony.orm import *
 from ..Config.index import Config
 import time
+from datetime import datetime
 
 db = Database()
 
@@ -30,6 +31,30 @@ class Category(db.Entity):
     name = Required(str)
     products = Set('Product')
     suppliers = Set('CategorySupplier')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
+
+
+class Unit(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    name = Required(str)
+    products = Set('Product')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Supplier(db.Entity):
@@ -41,6 +66,15 @@ class Supplier(db.Entity):
     inbound_stocks = Set('InboundStock')
     products = Set('ProductSupplier')
     categories = Set('CategorySupplier')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Client(db.Entity):
@@ -51,12 +85,30 @@ class Client(db.Entity):
     outbound_stocks = Set('OutboundStock')
     orders = Set('Order')
     product_client = Set('ProductClient')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Service(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str)
     users = Set('User')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class User(db.Entity):
@@ -74,6 +126,15 @@ class User(db.Entity):
     inventory_audits = Set('InventoryAudit')
     deliveries = Set('Delivery')
     returns = Set('Return')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Product(db.Entity):
@@ -81,9 +142,8 @@ class Product(db.Entity):
     name = Required(str)
     image_name = Optional(str)
     category = Required(Category)
+    unit = Required(Unit)
     expiration_date = Optional(str)
-    modification_date = Optional(str)
-    registration_date = Optional(str)
     unit_price = Optional(float)
     stock = Set('Stock')
     inbound_stocks = Set('InboundStock')
@@ -93,6 +153,15 @@ class Product(db.Entity):
     inventory_audits = Set('InventoryAudit')
     order_items = Set('OrderItem')
     returns = Set('Return')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Stock(db.Entity):
@@ -102,6 +171,15 @@ class Stock(db.Entity):
     stock_max = Optional(int)
     unit_price = Optional(float)
     current_stock = Optional(float)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class InboundStock(db.Entity):
@@ -114,6 +192,15 @@ class InboundStock(db.Entity):
     user = Required(User)
     tva_rate = Optional(float)
     invoice = Optional(str)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class OutboundStock(db.Entity):
@@ -124,24 +211,60 @@ class OutboundStock(db.Entity):
     user = Required(User)
     unit_price = Optional(float)
     client = Required(Client)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class ProductClient(db.Entity):
     client = Required(Client)
     product = Required(Product)
     PrimaryKey(client, product)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class ProductSupplier(db.Entity):
     supplier = Required(Supplier)
     product = Required(Product)
     PrimaryKey(supplier, product)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class CategorySupplier(db.Entity):
     category = Required(Category)
     supplier = Required(Supplier)
     PrimaryKey(category, supplier)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class InventoryAudit(db.Entity):
@@ -152,6 +275,15 @@ class InventoryAudit(db.Entity):
     audit_quantity = Optional(int)
     audit_id_uniq = Optional(int)
     notes = Optional(str)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Order(db.Entity):
@@ -163,6 +295,15 @@ class Order(db.Entity):
     order_items = Set('OrderItem')
     deliveries = Set('Delivery')
     returns = Set('Return')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class OrderItem(db.Entity):
@@ -171,6 +312,15 @@ class OrderItem(db.Entity):
     quantity = Required(int)
     unit_price = Optional(float)
     PrimaryKey(order, product)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Delivery(db.Entity):
@@ -179,6 +329,15 @@ class Delivery(db.Entity):
     delivery_date = Optional(str)
     delivered_by = Required(User)
     status = Required(str, sql_type='ENUM("Pending", "Delivered", "Cancelled")')
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 class Return(db.Entity):
@@ -189,6 +348,15 @@ class Return(db.Entity):
     quantity = Required(int)
     reason = Optional(str)
     handled_by = Required(User)
+    created_date = Optional(datetime, default=lambda: datetime.utcnow())
+    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+
+    def before_insert(self):
+        self.created_date = datetime.utcnow()
+        self.updated_date = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_date = datetime.utcnow()
 
 
 db.generate_mapping(create_tables=True)

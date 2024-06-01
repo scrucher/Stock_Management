@@ -3,7 +3,7 @@ WORKDIR /client
 COPY package*.json ./
 RUN npm install
 
-COPY . .
+COPY ../client-1 .
 RUN npm run build
 
 # --- Production Stage ---
