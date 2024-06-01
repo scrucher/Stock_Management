@@ -9,7 +9,7 @@ class ProductController:
         if not data:
             return jsonify({'error': 'No data provided'}), 400
         try:
-            product = Product(
+            Product(
                 name=data['name'],
                 image_name=data['image_name'],
                 category=data['category'],
@@ -17,8 +17,6 @@ class ProductController:
                 unit_price=data['unit_price'],
                 unit=data['unit']
             )
-            if not product:
-                return jsonify({'error': 'Please check that the category or unit already exist otherwise try in a while'}), 400
             return jsonify({'message': 'Product created'}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 400
