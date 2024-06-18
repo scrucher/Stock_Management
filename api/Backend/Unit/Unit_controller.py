@@ -45,7 +45,7 @@ class UnitController:
             unit = [s.to_dict() for s in Unit.select()]
             if not unit:
                 return jsonify({'error': 'No unit found'}), 404
-            return jsonify({'unit': unit}), 200
+            return jsonify({'list': unit}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
@@ -54,6 +54,6 @@ class UnitController:
             unit = Unit.get(id=id)
             if not unit:
                 return jsonify({'error': 'Unit not found'}), 404
-            return jsonify({'unit': unit.to_dict()}), 200
+            return jsonify({'list': unit.to_dict()}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500

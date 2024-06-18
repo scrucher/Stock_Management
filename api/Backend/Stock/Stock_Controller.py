@@ -9,8 +9,6 @@ class StockController:
         if not data:
             return jsonify({'error': 'No data provided'}), 400
         try:
-
-
             Stock(
                 product=data['product_id'],
                 stock_security=data['stock_security'],
@@ -23,14 +21,6 @@ class StockController:
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    def delete_stock(self, id):
-        try:
-            stock = Stock.get(id=id)
-            if stock:
-                stock.delete()
-                return jsonify({'message': 'Stock deleted'}), 200
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
 
     def update_stock(self, id):
         data = request.get_json()

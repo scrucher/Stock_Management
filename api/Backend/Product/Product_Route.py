@@ -1,7 +1,7 @@
 from flask import Blueprint
 from .Product_Controller import ProductController
 
-product_bp = Blueprint('product', __name__)
+product_bp = Blueprint('Product', __name__)
 product_controller = ProductController()
 
 
@@ -19,7 +19,7 @@ def update(id):
 
 @product_bp.route('/list', methods=['GET'])
 def list_products():
-    return product_controller.list_product()
+    return product_controller.list_products()
 
 @product_bp.route('/list/<int:id>', methods=['GET'])
 def list_product_by_id(id):

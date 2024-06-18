@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 
 db = Database()
+config = Config()
 
 MAX_RETRIES = 5
 RETRY_DELAY = 3  # Seconds
@@ -12,7 +13,7 @@ RETRY_DELAY = 3  # Seconds
 def connect_to_db():
     for i in range(MAX_RETRIES):
         try:
-            db.bind(provider='mysql', host=Config.db_host, user=Config.db_user, passwd=Config.db_pass,
+            db.bind(provider='mysql', host=config.db_host, user=config.db_user, passwd=config.db_pass,
                     db='saley_stock')
             print("Database connection successful!")
             return
@@ -169,8 +170,7 @@ class Stock(db.Entity):
     product = Required(Product)
     stock_security = Optional(int)
     stock_max = Optional(int)
-    unit_price = Optional(float)
-    current_stock = Optional(float)
+    exp_date = Optional(str)
     created_date = Optional(datetime, default=lambda: datetime.utcnow())
     updated_date = Optional(datetime, default=lambda: datetime.utcnow())
 
@@ -191,16 +191,12 @@ class InboundStock(db.Entity):
     unit_price = Optional(float)
     user = Required(User)
     tva_rate = Optional(float)
+    exp_date = Optional(str)
     invoice = Optional(str)
-    created_date = Optional(datetime, default=lambda: datetime.utcnow())
-    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+    create_date = Optional(datetime, default=lambda: datetime.utcnow())
 
     def before_insert(self):
-        self.created_date = datetime.utcnow()
-        self.updated_date = datetime.utcnow()
-
-    def before_update(self):
-        self.updated_date = datetime.utcnow()
+        self.create_date = datetime.utcnow()
 
 
 class OutboundStock(db.Entity):
@@ -209,17 +205,11 @@ class OutboundStock(db.Entity):
     product = Required(Product)
     date_out = Optional(str)
     user = Required(User)
-    unit_price = Optional(float)
     client = Required(Client)
-    created_date = Optional(datetime, default=lambda: datetime.utcnow())
-    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
+    create_date = Optional(datetime, default=lambda: datetime.utcnow())
 
     def before_insert(self):
-        self.created_date = datetime.utcnow()
-        self.updated_date = datetime.utcnow()
-
-    def before_update(self):
-        self.updated_date = datetime.utcnow()
+        self.create_date = datetime.utcnow()
 
 
 class ProductClient(db.Entity):

@@ -56,7 +56,7 @@ class UserController:
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    def update_user(self):
+    def update_user(self, id):
         data = request.get_json()
         try:
             user = User.get(id=data["id"])

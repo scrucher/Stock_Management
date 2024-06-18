@@ -51,7 +51,7 @@ class SupplierController:
             supplier = [s.to_dict() for s in Supplier.select()]
             if not supplier:
                 return jsonify({'error': 'No supplier found'}), 404
-            return jsonify({'supplier': supplier}), 200
+            return jsonify({'list': supplier}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
@@ -60,6 +60,6 @@ class SupplierController:
             supplier = Supplier.get(id=id)
             if not supplier:
                 return jsonify({'error': 'Supplier not found'}), 404
-            return jsonify({'supplier': supplier.to_dict()}), 200
+            return jsonify({'list': supplier.to_dict()}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500

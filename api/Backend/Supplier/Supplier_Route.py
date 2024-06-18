@@ -1,7 +1,7 @@
 from flask import Blueprint
 from .Supplier_Controller import SupplierController
 
-supplier_bp = Blueprint('supplier', __name__)
+supplier_bp = Blueprint('Supplier', __name__)
 supplier_controller = SupplierController()
 
 

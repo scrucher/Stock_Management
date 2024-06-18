@@ -1,12 +1,11 @@
 import React from "react";
 
-const SideBarComponen = ()=>{
-
+const SideBarComponent = () => {
     return (
         <div className="bg-gray-900 text-white w-64 p-6 flex flex-col gap-6">
             <a href="#" className="flex items-center gap-2" prefetch={false}>
-                <MountainIcon className="h-6 w-6"/>
-                <span className="text-xl font-bold">SaaS Admin</span>
+                <MountainIcon className="h-8 w-8"/>
+                <span className="text-2xl font-bold">Admin</span>
             </a>
             <nav className="flex flex-col gap-2">
                 <a
@@ -14,37 +13,38 @@ const SideBarComponen = ()=>{
                     className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
                     prefetch={false}
                 >
-                    <UsersIcon className="h-5 w-5"/>
-                    <span>Users</span>
+                    <UsersIcon className="h-6 w-6"/>
+                    <span className="text-lg">Users</span>
                 </a>
                 <a
                     href="#"
                     className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
                     prefetch={false}
                 >
-                    <ShoppingCartIcon className="h-5 w-5"/>
-                    <span>Subscriptions</span>
+                    <ShoppingCartIcon className="h-6 w-6"/>
+                    <span className="text-lg">Subscriptions</span>
                 </a>
                 <a
                     href="#"
                     className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
                     prefetch={false}
                 >
-                    <CreditCardIcon className="h-5 w-5"/>
-                    <span>Billing</span>
+                    <CreditCardIcon className="h-6 w-6"/>
+                    <span className="text-lg">Billing</span>
                 </a>
                 <a
                     href="#"
                     className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
                     prefetch={false}
                 >
-                    <SettingsIcon className="h-5 w-5"/>
-                    <span>Settings</span>
+                    <SettingsIcon className="h-6 w-6"/>
+                    <span className="text-lg">Settings</span>
                 </a>
             </nav>
         </div>
     )
 }
+
 
 function ActivityIcon(props) {
   return (
@@ -215,3 +215,6 @@ function UsersIcon(props) {
     </svg>
   )
 }
+
+
+export {SideBarComponent}

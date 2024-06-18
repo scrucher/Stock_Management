@@ -1,6 +1,6 @@
 from flask import *
 from pony.orm import *
-from ..Entity.Models import Product
+from ..Entity.Models import Product, Category, Supplier, Unit
 
 
 class ProductController:
@@ -50,20 +50,33 @@ class ProductController:
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    def list_product(self):
-        try:
-            product = [s.to_dict() for s in Product.select()]
-            if not product:
-                return jsonify({'error': 'No product found'}), 404
-            return jsonify({'product': product}), 200
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
+    def list_products(self):
+        with db_session:
+            query = select(
+                (p, c, u)
+                for p in Product
+                for c in JOIN(p.category)
+                for u in JOIN(p.unit)
+            )
+            product_dicts = [
+                {
+                    'id': p.id,
+                    'name': p.name,
+                    'unit_price': p.unit_price,
+                    'expiration_date': p.expiration_date,
+                    'category': c.name,
+                    'unit': u.name
+                }
+                for p, c, u in query
+            ]
+            return jsonify({'list': product_dicts}), 200
+
 
     def list_product_by_id(self, id):
         try:
             product = Product.get(id=id)
             if not product:
                 return jsonify({'error': 'Product not found'}), 404
-            return jsonify({'product': product.to_dict()}), 200
+            return jsonify({'list': product.to_dict()}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500

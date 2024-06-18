@@ -48,7 +48,7 @@ class ServiceController:
             services = [s.to_dict() for s in Service.select()]
             if not services:
                 return jsonify({'error': 'No services found'}), 404
-            return jsonify({'services': services}), 200
+            return jsonify({'list': services}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
@@ -57,6 +57,6 @@ class ServiceController:
             service = Service.get(id=id)
             if not service:
                 return jsonify({'error': 'Service not found'}), 404
-            return jsonify({'services': service.to_dict()}), 200
+            return jsonify({'list': service.to_dict()}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500

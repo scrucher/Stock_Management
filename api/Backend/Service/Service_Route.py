@@ -1,7 +1,7 @@
 from flask import Blueprint
 from .Service_Controller import ServiceController
 
-service_bp = Blueprint('service', __name__)
+service_bp = Blueprint('Service', __name__)
 service_controller = ServiceController()
 
 

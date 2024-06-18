@@ -12,7 +12,7 @@ def create_user():
 
 @user_bp.route('/get_user/<int:id>', methods=['GET'])
 def get_user(user_id):
-    return user_controller.get_user()
+    return user_controller.get_user(user_id)
 
 
 @user_bp.route('/users', methods=['GET'])
