@@ -14,7 +14,7 @@ class Config:
         self.db_user = os.getenv('DB_USER') or 'root'
         self.db_pass = os.getenv('DB_PASS') or ''
         self.db_port = os.getenv('DB_PORT') or 3306
-        self.jwt_secret = os.urandom(64)
+        self.jwt_secret = os.getenv('JWT_SECRET') or os.urandom(64)
         self.jwt_hash = os.getenv('JWT_HASH') or 'HS512'
         self.redis_host = os.getenv('REDIS_HOST') or 'localhost'
         self.redis_port = os.getenv('REDIS_PORT') or 6379

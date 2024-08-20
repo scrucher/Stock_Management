@@ -19,7 +19,7 @@ const LogInIcon = (props) => (
   </svg>
 );
 
-const Component = () => {
+const LogIn = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-12 dark:bg-gray-950">
       <div className="w-full max-w-md space-y-8">

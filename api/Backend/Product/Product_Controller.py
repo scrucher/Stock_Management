@@ -1,82 +1,64 @@
 from flask import *
-from pony.orm import *
-from ..Entity.Models import Product, Category, Supplier, Unit
+from .Product_Repository import ProductRepository
+from ..Utilities.DTO import JSONResponse
+from ..Utilities.Redis_Client import RedisClient
 
 
 class ProductController:
-    def create_product(self):
+
+    def __init__(self, product_repository: ProductRepository, redis_client: RedisClient):
+        self.product_repository = product_repository
+        self.redis_client = redis_client
+        self.products = None
+        self.product = None
+        self.key = "Products"
+
+    def create_product(self) -> JSONResponse:
         data = request.get_json()
         if not data:
-            return jsonify({'error': 'No data provided'}), 400
+            return jsonify({'error': 'No data was Found'}), 404
         try:
-            Product(
-                name=data['name'],
-                image_name=data['image_name'],
-                category=data['category'],
-                expiration_date=data['expiration_date'],
-                unit_price=data['unit_price'],
-                unit=data['unit']
-            )
+            self.product = self.product_repository.add(data)
+            data = self.product.to_dict()
+            self.redis_client.set(self.key, data, self.product.id)
             return jsonify({'message': 'Product created'}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 400
 
-    def delete_product(self, id):
+    def delete_product(self, product_id: int) -> JSONResponse:
         try:
-            product = Product.get(id=id)
-            if product:
-                product.delete()
+            data = self.product_repository.get(product_id)
+            if data:
+                data.delete()
+                self.redis_client.delete(self.key, product_id)
                 return jsonify({'message': 'Product deleted'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    def update_product(self, id):
+    def update_product(self, product_id: int) -> JSONResponse:
         data = request.get_json()
         if not data:
-            return jsonify({'error': 'No data provided'}), 400
+            return jsonify({'error': 'No data was found'}), 400
         try:
-            product = Product.get(id=id)
+            product = self.product_repository.get(product_id)
             if not product:
                 return jsonify({'error': 'Product not found'}), 404
-            product.set(
-                name=data['name'],
-                image_name=data['image_name'],
-                category=data['category_id'],
-                expiration_date=data['expiration_date'],
-                unit_price=data['unit_price'],
-                unit_id=data['unit_id']
-            )
+            self.product = self.product_repository.update(product_id, data)
+            data = self.product.to_dict()
+            self.redis_client.set('Categories', data, self.product.id)
             return jsonify({'message': product.to_dict()}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    def list_products(self):
-        with db_session:
-            query = select(
-                (p, c, u)
-                for p in Product
-                for c in JOIN(p.category)
-                for u in JOIN(p.unit)
-            )
-            product_dicts = [
-                {
-                    'id': p.id,
-                    'name': p.name,
-                    'unit_price': p.unit_price,
-                    'expiration_date': p.expiration_date,
-                    'category': c.name,
-                    'unit': u.name
-                }
-                for p, c, u in query
-            ]
-            return jsonify({'list': product_dicts}), 200
+    def list_product(self) -> JSONResponse:
+        product = self.redis_client.get_all(self.key)
+        if not product:
+            return jsonify({'error': 'No product found'}), 404
+        return jsonify({'list': product}), 200
 
-
-    def list_product_by_id(self, id):
-        try:
-            product = Product.get(id=id)
-            if not product:
-                return jsonify({'error': 'Product not found'}), 404
-            return jsonify({'list': product.to_dict()}), 200
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
+    def list_product_by_id(self, product_id: int) -> JSONResponse:
+        self.products = self.redis_client.get_all(self.key)
+        res = self.products[str(product_id)]
+        if not self.products:
+            return jsonify({'error': 'Product not found'}), 404
+        return jsonify({'list': res}), 200

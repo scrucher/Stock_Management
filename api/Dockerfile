@@ -3,7 +3,6 @@ FROM python:3.9-slim
 WORKDIR /api
 
 COPY requirements.txt .
-RUN pip install cryptography
 RUN pip install -r requirements.txt
 
 COPY . .

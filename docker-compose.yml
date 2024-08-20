@@ -8,11 +8,22 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf # Mount custom config
-      - my-db-data:/var/lib/mysql         # Named volume for MySQL data
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - my-db-data:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD : yes
       MYSQL_DATABASE: saley_stock
+    networks:
+      - stock-network
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis_data:/data
     networks:
       - stock-network
 
@@ -22,6 +33,7 @@ services:
     restart: on-failure
     depends_on:
       - db
+      - redis
     ports:
       - "5000:5000"
     networks:
@@ -34,12 +46,14 @@ services:
       DB_PASS:
       DB_NAME: saley_stock
       DB_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
 
   client:
     container_name: client
     build: ./client
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
       - api
     networks:
@@ -51,3 +65,4 @@ networks:
 
 volumes:
   my-db-data:
+  redis_data:

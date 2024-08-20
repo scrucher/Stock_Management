@@ -1,14 +1,14 @@
 import axios from "axios";
+import {url} from "../Utililties";
+
+const BaseUrl = `${url}`;
 
 
-const url = 'http://localhost:5000/Category';
 
-
-
-const CreateCategory = async (data) => {
+const Create = async (data,path) => {
   try {
     const response = await axios.post(
-      `${url}/create`,
+      `${BaseUrl}/${path}/create`,
       JSON.stringify(data),
       {
         headers: {
@@ -25,10 +25,10 @@ const CreateCategory = async (data) => {
   }
 };
 
-const UpdateCategory = async (id,data)=>{
+const Update = async (id,data, path)=>{
     try {
     const response = await axios.put(
-      `${url}/update/${id}`,
+      `${BaseUrl}/${path}/update/${id}`,
       JSON.stringify(data),
       {
         headers: {
@@ -44,10 +44,10 @@ const UpdateCategory = async (id,data)=>{
     throw error;
   }
 }
-const DeleteCategory = async (id)=>{
+const Delete = async (id,path)=>{
     try {
     const response = await axios.delete(
-      `${url}/delete/${id}`,
+      `${BaseUrl}/${path}/delete/${id}`,
       {
         headers: {
           'Content-Type': 'application/json'
@@ -63,14 +63,14 @@ const DeleteCategory = async (id)=>{
   }
 }
 
-const GetCategory = ()=>{
+const Get = (id, path)=>{
 
 }
 
-const GetCategories = async() =>{
+const GetAll = async(path) =>{
     try {
     const response = await axios.get(
-      `${url}/list`,
+      `${BaseUrl}/${path}/list`,
       {
         headers: {
           'Content-Type': 'application/json'
@@ -88,9 +88,9 @@ const GetCategories = async() =>{
 
 
 export {
-    CreateCategory,
-    UpdateCategory,
-    DeleteCategory,
-    GetCategory,
-    GetCategories
+    Create,
+    Update,
+    Delete,
+    Get,
+    GetAll
 }

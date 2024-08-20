@@ -47,25 +47,25 @@ const UserTable = () => {
             </div>
             <div className="shadow-lg ">
                 <div className="">
-                    <table className="w-full table-fixed">
-                        <thead className="bg-gray-100">
+                    <table className="w-full table-fixed rounded-2xl bg-gray-200">
+                        <thead className="rounded-2xl bg-gray-200">
                         <tr>
-                            <th className="p-2 text-left w-1/4">Name</th>
-                            <th className="p-2 text-left w-1/4">Email</th>
-                            <th className="p-2 text-left w-1/4">Role</th>
-                            <th className="p-2 text-left w-1/4">Actions</th>
+                            <th className="p-2 text-left w-1/5">Name</th>
+                            <th className="p-2 text-left w-2/5">Email</th>
+                            <th className="p-2 text-left w-1/5">Role</th>
+                            <th className="p-2 text-left w-1/5">Actions</th>
                         </tr>
                         </thead>
                     </table>
-                    <div className="overflow-y-auto max-h-[395px]">
+                    <div className="overflow-y-auto overflow-x-auto max-h-[445px] rounded-2xl bg-gray-100">
                         <table className="w-full table-fixed">
                             <tbody>
                             {users.map((user, index) => (
                                 <tr key={index} className="border-t ">
-                                    <td className="p-2 w-1/4">{user.name}</td>
-                                    <td className="p-2 w-1/4">{user.email}</td>
-                                    <td className="p-2 w-1/4">{user.role}</td>
-                                    <td className="p-2 w-1/4">
+                                    <td className="p-2 w-1/5 text-left">{user.name}</td>
+                                    <td className="p-2 w-2/5 text-left ">{user.email}</td>
+                                    <td className="p-2 w-1/5 text-left">{user.role}</td>
+                                    <td className="p-2 w-1/5">
                                         <div className="flex gap-2">
                                             <Button
                                                 className="bg-red-500 hover:bg-red-300"
