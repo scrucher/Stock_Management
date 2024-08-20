@@ -25,7 +25,7 @@ api/.flaskenv
 
 api/*.pyc
 api/__pycache__/
-
+api/*/__pycache__/
 api/instance/
 
 api/.pytest_cache/
