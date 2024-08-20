@@ -1,13 +1,13 @@
-from flask import *
+""" from flask import *
 from ..Config.index import Config
 
 
 class Authorization:
-    
+
     def __init__(self, token):
         self.token : str = token
 
-    
+
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
@@ -25,5 +25,4 @@ class Authorization:
 
         return f(current_user, *args, **kwargs)
 
-    return decorated
-    
+    return decorated """

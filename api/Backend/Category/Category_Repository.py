@@ -6,7 +6,6 @@ class CategoryRepository:
     def __init__(self):
         self.category = None
 
-
     @db_session
     def add(self, name: str):
         self.category = Category(name=name)
@@ -30,6 +29,7 @@ class CategoryRepository:
                 self.category.name = name
                 commit()
         return self.category
+
     @db_session
     def delete(self, category_id: int):
         self.category = Category.get(id=category_id)

@@ -28,7 +28,8 @@ class InboundStockController:
                 )
 
                 if in_stock:
-                    stock_query = select(s for s in Stock if s.product == data['product'] and s.exp_date == data['exp_date'])
+                    stock_query = select(
+                        s for s in Stock if s.product == data['product'] and s.exp_date == data['exp_date'])
                     stock = stock_query.first()  # Execute the query to get the first matching stock
 
                     if stock:

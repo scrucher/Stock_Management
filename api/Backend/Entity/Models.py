@@ -165,51 +165,62 @@ class Product(db.Entity):
         self.updated_date = datetime.utcnow()
 
 
-class Stock(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    product = Required(Product)
-    stock_security = Optional(int)
-    stock_max = Optional(int)
-    exp_date = Optional(str)
-    created_date = Optional(datetime, default=lambda: datetime.utcnow())
-    updated_date = Optional(datetime, default=lambda: datetime.utcnow())
-
-    def before_insert(self):
-        self.created_date = datetime.utcnow()
-        self.updated_date = datetime.utcnow()
-
-    def before_update(self):
-        self.updated_date = datetime.utcnow()
-
-
 class InboundStock(db.Entity):
     id = PrimaryKey(int, auto=True)
     quantity = Required(int)
-    product = Required(Product)
-    date_in = Optional(str)
-    supplier = Required(Supplier)
-    unit_price = Optional(float)
-    user = Required(User)
+    product_id = Required(Product)
+    date_in = Required(datetime)
+    supplier_id = Required(Supplier)
+    unit_price = Required(float)
+    user_id = Required(User)
     tva_rate = Optional(float)
-    exp_date = Optional(str)
     invoice = Optional(str)
-    create_date = Optional(datetime, default=lambda: datetime.utcnow())
+    created_at = Required(datetime, default=datetime.utcnow)
+    updated_at = Required(datetime, default=datetime.utcnow)
 
     def before_insert(self):
-        self.create_date = datetime.utcnow()
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_at = datetime.utcnow()
 
 
 class OutboundStock(db.Entity):
     id = PrimaryKey(int, auto=True)
     quantity = Required(int)
-    product = Required(Product)
-    date_out = Optional(str)
-    user = Required(User)
-    client = Required(Client)
-    create_date = Optional(datetime, default=lambda: datetime.utcnow())
+    product_id = Required(Product)
+    date_out = Required(datetime)
+    user_id = Required(User)
+    unit_price = Required(float)
+    client_id = Required(Client)
+    created_at = Required(datetime, default=datetime.utcnow)
+    updated_at = Required(datetime, default=datetime.utcnow)
 
     def before_insert(self):
-        self.create_date = datetime.utcnow()
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_at = datetime.utcnow()
+
+
+class Stock(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    product_id = Required(Product)
+    stock_security = Optional(int)
+    stock_max = Optional(int)
+    unit_price = Optional(float)
+    current_stock = Optional(float)
+    created_at = Required(datetime, default=datetime.utcnow)
+    updated_at = Required(datetime, default=datetime.utcnow)
+
+    def before_insert(self):
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
+
+    def before_update(self):
+        self.updated_at = datetime.utcnow()
 
 
 class ProductClient(db.Entity):
